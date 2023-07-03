@@ -1,0 +1,41 @@
+.navbar {
+    display: flex;
+    background-color: #000000;
+    justify-content: flex-end;
+    padding-left: 3em;
+    padding-right: 3em;
+    padding-top: 1em;
+}
+
+.list {
+    display: flex;
+    list-style: none;
+    align-items: center;
+}
+
+.item {
+    margin-right: 2em;
+}
+
+.item a{
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.item a:hover{
+    color: #e5e059;
+}
+
+.status {
+    font-weight: normal;
+    padding: 0.5em;
+    align-items: center;
+}
+
+.conectado {
+    color:#7CFC00;
+}
+
+.desconectado {
+    color:  #f7979e;
+}

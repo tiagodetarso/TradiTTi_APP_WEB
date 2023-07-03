@@ -1,0 +1,15 @@
+.form {
+    margin: .5em 0 auto;
+    padding: .7em;
+}
+
+.image {
+    padding: .7em;
+    margin: .5em 0 auto;
+    align-items: flex-end;
+}
+
+.picture {
+    align-self: center;
+    width: 320px;
+}

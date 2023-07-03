@@ -1,0 +1,56 @@
+.container {
+    align-items: center;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.head {
+    height: 8em;
+    justify-content: center;
+    color: #E5625E;
+    padding: 1em;
+}
+
+.body {
+    align-items: center;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.nowrap {
+    align-items: center;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    flex-wrap: nowrap;
+}
+
+.min_height {
+    min-height: 85%;
+    max-height: 450px;
+    overflow: scroll;
+}
+
+.column {
+    padding:10px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.column_height {
+    min-height: 450px;
+    padding:10px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+

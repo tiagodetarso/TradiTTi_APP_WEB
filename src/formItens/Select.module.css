@@ -1,0 +1,30 @@
+.custom_select {
+    display: grid;
+    flex-direction: column;
+    margin-bottom: 1em;
+    position: relative;
+    cursor: pointer;
+}
+
+.custom_select label {
+    margin-bottom: .6em;
+    font-weight: bold;
+    color: #bdd358;
+}
+
+.custom_select select {
+    background-color: #ffffff;
+    font-weight: bold;
+    color: #000000;
+    padding: 0.7em;
+    margin: 0;
+    width: 300px;
+    font-family: inherit;
+    cursor: inherit;
+    line-height: inherit;
+    outline: none;
+    border: 1px solid #bdd358;
+    border-radius: 0.5em;
+}
+
+
