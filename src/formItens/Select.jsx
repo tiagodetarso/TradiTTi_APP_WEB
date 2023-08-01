@@ -7,7 +7,7 @@ export default function Select ({ name, text, size, ops, handleOnChange }) {
 
     if (Array.isArray(ops)) {
         options = ops.map(op => (
-            <option className={styles.options} key={op} value={op}>{op}</option>
+            <option className={styles.options} key={op.name} value={op.value}>{op.name}</option>
         ))
     }
 

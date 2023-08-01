@@ -7,12 +7,13 @@ import Modal from 'react-modal'
 
 import Container from '../layout/Container'
 import LinkButton from '../formItens/LinkButton'
+import SearchProductForm from '../forms/SearchProductForm'
 import ProductTable from '../layout/ProductTable'
 import Button from '../formItens/Button'
 import ButtonX from '../formItens/ButtonX'
+import LillButton from '../formItens/LillButton'
 import ProductForm from '../forms/ProductForm'
 import ProductImageForm from '../forms/ProductImageForm'
-import { productTableColumns } from '../layout/ProductTableConfig'
 import { CustomLoader } from '../layout/TableCustomLoader.jsx'
 import { setMensagem, setTipoMensagem } from '../slices/loginResponseSlice'
 import { setPath } from '../slices/locationSlice'
@@ -32,18 +33,91 @@ export default function Editar() {
     dispatch(setPath(location.pathname))
 
     const [ result, setResult ] = useState([])
+    const [ list, setList ] = useState([])
+    const [ thereState, setThereState ] = useState(false)
 
     const [ rows, setRows ] = useState([])
+
     const [ toggledClearRows, setToggledClearRows ] = useState(false)
  
     const [ pending, setPending ] = useState(true)
     const [ isModalOpen, setIsModalOpen ] = useState(false)
 
+
+    function ChangeThereIs (r) {
+        setThereState(!thereState)
+        fetch (`http://${apiUrl}/product/editthereis`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        id: r._id,
+                        thereIs: r.thereIs,
+                    })
+                })
+                .then(resp => resp.json())
+                .then((data) => {
+                    if (data.msg === `Produto alterado com sucesso!`) {
+                        console.log("Status de produto alterado")
+                    } else {
+                        console.log("Status do produto não foi alterado")
+                    }
+                })
+                .catch((err) => console.log(err))
+    }
+
+    const productTableColumns = [
+        {
+            id:'thereIs',
+            name:"",
+            selector: row => row.thereIs ? <LillButton text='V' handleOnClick={() => ChangeThereIs(row)} customClass='Tem'/> : <LillButton text='X' handleOnClick={() => ChangeThereIs(row)} customClass='Ntem'/>,
+            sortable: true,
+            width: '5%'
+        },
+        {
+            id:'type',
+            name:"Tipo",
+            selector: row => row.type,
+            sortable: true,
+            width: '14%'
+        },
+        {
+            id:'subType',
+            name:"Grupo",
+            selector: row => row.subType,
+            sortable: true,
+            width: '14%'
+            
+        },
+        {
+            id:'specification',
+            name:"Especificação",
+            selector: row => row.specification,
+            sortable: true,
+            width: '29%'
+        },
+        {
+            id:'unity',
+            name:"Und",
+            selector: row => row.unity,
+            sortable: true,
+            width: '14%'
+        },
+        {
+            id:'value',
+            name:"Preço",
+            selector: row => `R$ ${row.value.toFixed(2)}`,
+            sortable: true,
+            width: '14%'
+        },
+    ]
+
     // Loading Effect
     useEffect(() => {
         const timeout = setTimeout(() => {
             setPending(false)
-        }, 2000)
+        }, 3000)
         return () => clearTimeout(timeout)
     },[pending])
 
@@ -66,14 +140,39 @@ export default function Editar() {
         .catch((err) => console.log(err))
     }
 
-    // Buscar dados dos Produtos ao iniciar a página
-    useEffect(() => {Listar()},[count])
+    function Search(text) {
+        text.length < 2 
+        ?
+        setList(result)
+        :
+        setList(
+            result.filter(item => {
+                if ((item.specification).indexOf(text) > -1 ) {
+                    return true
+                } else {
+                    return false
+                }
+            })
+        )
+    }
+
+    function SettingList(data) {
+        setList(data)
+    }
+
+    // Buscar dados dos Produtos ao iniciar a página e ao pesquisar
+    useEffect(() => {
+        Listar()
+    },[thereState, count])
+
+    useEffect(() => {
+        SettingList(result)
+    }, [count, result])
 
     // Gerenciar seleção de linhas
     function RowsChange( rows ) {
         const selection = rows.selectedRows
         setRows(selection)
-        console.log(selection)
         setToggledClearRows(false)
     }
 
@@ -83,7 +182,7 @@ export default function Editar() {
     }
 
     // Função para mostrar a descrição na expansão da linha 
-    const ExpandedComponent = ({data}) =>
+    const XpandedComponent = ({data}) =>
         <pre> 
             {data['subSpecification']}
             <Button handleOnClick={() => ExpandedButton(data)} text='Criar Promo' />
@@ -113,9 +212,9 @@ export default function Editar() {
                         dispatch(setMensagem({msg: receivedData.msg, count:count+1}))
                     })
                     .catch((err) => console.log(err))
+                    setResult(differenceBy(result, rows, 'subType'&&'specification'))
+                    setToggledClearRows(true)
                 }
-				setResult(differenceBy(result, rows, '_id'))
-                setToggledClearRows(true)
 		}
     }
     
@@ -130,8 +229,8 @@ export default function Editar() {
         }
 
 		return (
-            <div style={{ flexDirection:'row' }}>
-                <ButtonX text='Excluir' handleOnClick={handleDelete} />
+            <div style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                <ButtonX text='Excluir' handleOnClick={handleDelete} /> 
                 <Button text='Editar' handleOnClick={handleEdit} />
             </div>
 		)
@@ -139,6 +238,7 @@ export default function Editar() {
 
     // Função para editar produto (dentro do modal)
     function ModalSubmitForm(formData) {
+        setToggledClearRows(true)
         fetch (`http://${apiUrl}/product/edit`, {
                 method: 'PATCH',
                 headers: {
@@ -167,7 +267,6 @@ export default function Editar() {
             .catch((err) => console.log(err))
 
             setIsModalOpen(false)
-            setToggledClearRows(true)
     }
 
     // Função para Editar imagem do produto (dentro do modal)
@@ -237,14 +336,17 @@ export default function Editar() {
         return(
             <Container customClass ='column_height'>
                 <h1 className={styles.text}>Editar Produto</h1>
+                <div style={{marginTop:10, marginLeft:140, alignSelf:'flex-start'}}>
+                    <SearchProductForm handleSubmit={Search} />
+                </div>
                 <ProductTable 
-                    tableData={result}
+                    tableData={list}
                     tableColumns={productTableColumns}
                     tableTitle='Lista de Produtos'
                     selectable={true}
                     expandable={true}
-                    expandableComponent={ExpandedComponent}
                     clearRows={toggledClearRows}
+                    expandableComponent={XpandedComponent}
                     pending={pending}
                     prgssComponent={<CustomLoader />}
                     hoverHighlight={true}

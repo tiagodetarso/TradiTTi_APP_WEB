@@ -4,3 +4,53 @@
     padding: 0.5em;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
+
+.textOpen{
+    color: #228B22;
+    font-weight: bold;
+    padding: 0.5em;
+    margin-top: 1em;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.textClose{
+    color: #DC143C;
+    font-weight: bold;
+    padding: 0.5em;
+    margin-top: 1em;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.tabela {
+    width: 500px;
+    border: 1px solid;
+    border-collapse: collapse;
+    align-self: center
+}
+
+.celtabhead {
+    font-weight: bold;
+    font-size: 1.4em;
+    color: #4682b4;
+    text-align: center;
+    border: 0.15em;
+    border-collapse: collapse;
+}
+
+.celtabbody {
+    padding: 0.5em;
+    font-size: 0.9em;
+    color: #4682b4;
+    text-align: center;
+    border: 0.15em ;
+    border-collapse: collapse;
+}
+
+.celtabnome {
+    padding: 0.5em;
+    font-size: 0.9em;
+    color: #4682b4;
+    text-align: center;
+    border: 0.15em ;
+    border-collapse: collapse;
+}

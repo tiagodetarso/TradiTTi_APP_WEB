@@ -1,64 +1,35 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 import Input from '../formItens/Input'
-import SubmitButton from '../formItens/SubmitButton'
 
 import styles from './SearchProductForm.module.css'
 
-export default function ProductForm({ handleSubmit, btnText }) {
+export default function ProductForm({ handleSubmit , btnText }) {
 
-    const [ product, setProduct ] = useState({
-                                                type:'',
-                                                subType:'',
-                                                specification:'',
-                                                unity: '',
-                                            })
-
+    const [ product, setProduct ] = useState({ specification:"" })
 
     const submit = (e) => {
         e.preventDefault()
-        handleSubmit({ ...product})
+        handleSubmit(product.specification)
     }
 
     const handleChange = (e) => {
+        e.preventDefault()
         setProduct({ ...product, [e.target.name]: e.target.value})
+        submit(e)
     }
+
 
     return (
         <form onSubmit={submit} className={styles.form}>
             <Input 
                 type="text"
-                text="Tipo de Produto"
-                name="type"
-                placeholder="(ex: Comida, Bebida, etc)"
-                handleOnChange={handleChange}
-                value={product.type}
-            />
-            <Input 
-                type="text"
-                text="Subtipo de Produto"
-                name="subType"
-                placeholder="(ex: Esfiha, Porção, Chopp, Suco, etc)"
-                handleOnChange={handleChange}
-                value={product.subType}
-            />
-            <Input 
-                type="text"
-                text="Especificação (sabor ou marca)"
+                text="Pesquisa por 'Especificação'"
                 name="specification"
-                placeholder="(ex: Carne, Frango, Heineken, Coca-cola, etc)"
+                placeholder="digite aqui a palavra para pesquisar"
                 handleOnChange={handleChange}
                 value={product.specification}
             />
-            <Input 
-                type="text"
-                text="Unidade de Venda"
-                name="unity"
-                placeholder="(ex: unidade, 500ml, lata de 350ml, garrafa de 750ml, etc)"
-                handleOnChange={handleChange}
-                value={product.unity}
-            />
-            <SubmitButton text={btnText} />
         </form>
 
     )

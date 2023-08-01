@@ -43,7 +43,7 @@ export default function Promocoes() {
     useEffect(() => {
         const timeout = setTimeout(() => {
             setPending(false)
-        }, 2000)
+        }, 3000)
         return () => clearTimeout(timeout)
     },[pending])
 
@@ -92,7 +92,6 @@ export default function Promocoes() {
         const selection = rows.selectedRows[0]
         setRows(selection)
         setToggledClearRows(false)
-        console.log(selection)
     }
 
     // Context Actions

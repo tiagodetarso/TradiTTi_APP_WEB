@@ -45,6 +45,14 @@
     align-items: center;
 }
 
+.column_width {
+    width: '90%';
+    padding:10px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 .column_height {
     min-height: 450px;
     padding:10px;

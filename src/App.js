@@ -18,19 +18,16 @@ import RedefinirSenha from './pages/RedefinirSenha'
 import AlterarSenha from './pages/AlterarSenha'
 import Gestor from './pages/Gestor'
 import RecuperacaoSenha from './pages/RecuperacaoSenha'
-import Mensagem from './layout/Mensagem'
 import Footer from './layout/Footer'
 
 export default function App() {
 
   const pathname = useSelector((state) => state.location.path)
-  const tipoMensagem = useSelector((state) => state.loginresponse.tipoMensagem)
-
+  
   return(
     <Router>
       {(pathname === '/') && <Head />}
       {(pathname !== '/') && <NavBar />}
-      <Mensagem type={tipoMensagem} />
       <Container customClass='min_height'>
         <Routes>
           <Route path="/" 

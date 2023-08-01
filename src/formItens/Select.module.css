@@ -7,7 +7,7 @@
 }
 
 .custom_select label {
-    margin-bottom: .6em;
+    margin-bottom: .4em;
     font-weight: bold;
     color: #bdd358;
 }
@@ -16,7 +16,7 @@
     background-color: #ffffff;
     font-weight: bold;
     color: #000000;
-    padding: 0.7em;
+    padding: 0.6em;
     margin: 0;
     width: 300px;
     font-family: inherit;

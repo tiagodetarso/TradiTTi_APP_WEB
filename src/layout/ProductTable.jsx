@@ -4,13 +4,14 @@ import DataTable from 'react-data-table-component'
 const customStyles = {
     table: {
         style: {
-            width: '1000px',
+            width: '1100px',
             justifyContent: 'center',
         }
     },
     cells: {
         style: {
             justifyContent: 'center',
+
         }
     },
     headRow: {

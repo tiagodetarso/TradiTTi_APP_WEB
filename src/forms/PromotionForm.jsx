@@ -8,28 +8,6 @@ import styles from './LoginForm.module.css'
 
 export default function PromotionForm({ handleSubmit, btnText, initialData }) {
 
-    const weekDayNumber = {
-        'Nenhum dia específico': 7,
-        'Domingo':0,
-        'Segunda-feira':1,
-        'Terça-feira':2,
-        'Quarta-feira':3,
-        'Quinta-feira':4,
-        'Sexta-feira':5,
-        'Sábado':6
-    }
-
-    const numberDayWeek = {
-        7:'Nenhum dia específico',
-        0:':Domingo',
-        1:'Segunda-feira',
-        2:'Terça-feira',
-        3:'Quarta-feira',
-        4:'Quinta-feira',
-        5:'Sexta-feira',
-        6:'Sábado'
-    }
-
     const [ promotion, setPromotion ] = useState(initialData)
 
     console.log(promotion)
@@ -39,7 +17,7 @@ export default function PromotionForm({ handleSubmit, btnText, initialData }) {
         handleSubmit({
             id: initialData._id,
             promotionValue: Number(promotion.promotionValue),
-            fixPromotionDay: weekDayNumber[promotion.fixPromotionDay],
+            fixPromotionDay: promotion.fixPromotionDay,
             promotionInitialDate: new Date(String(promotion.promotionInitialDate)),
             promotionFinalDate: new Date(String(promotion.promotionFinalDate))
         })
@@ -68,14 +46,14 @@ export default function PromotionForm({ handleSubmit, btnText, initialData }) {
                 size='1'
                 handleOnChange={handleChange}
                 ops={[
-                    'Nenhum dia específico',
-                    'Domingo',
-                    'Segunda-feira',
-                    'Terça-feira',
-                    'Quarta-feira',
-                    'Quinta-feira',
-                    'Sexta-feira',
-                    'Sábado'
+                    {name:'Nenhum dia específico', value:7},
+                    {name:'Domingo', value: 0},
+                    {name:'Segunda-feira', value: 1},
+                    {name:'Terça-feira', value: 2},
+                    {name:'Quarta-feira', value: 3},
+                    {name:'Quinta-feira', value: 4},
+                    {name:'Sexta-feira', value: 5},
+                    {name:'Sábado', value: 6}
                 ]}
             />
             <Input 
