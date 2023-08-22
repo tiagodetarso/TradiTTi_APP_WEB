@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useCallback} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 
@@ -21,7 +21,7 @@ export default function Home() {
     const [ pickupGap, setPickupGap ] = useState('0 a 0 minutos')
     
     const [ deliveryFee, setDeliveryFee ] = useState({
-        "NÃO MORO EM ASTORGA": 0,
+        "FORA DE ASTORGA": 0,
         "CENTRO": 0,
         "CJ ALVORADA": 0,
         "CJ ANTONIO LOURENÇO I": 0,
@@ -99,7 +99,7 @@ export default function Home() {
 
     const apiUrl = process.env.REACT_APP_API_URL
        
-    function IsOpen(numberClient) {
+    const IsOpen = useCallback((numberClient) => {
         fetch (`http://${apiUrl}/client/isopen`, {
                 method: 'POST',
                 headers: {
@@ -115,7 +115,7 @@ export default function Home() {
                 }
             })
             .catch((err) => console.log(err))
-    }
+    },[apiUrl])
 
     function HandleOpenCloseClick(openOrClose) {
         fetch (`http://${apiUrl}/client/openclose`, {
@@ -197,7 +197,7 @@ export default function Home() {
         .catch((err) => console.log(err))
     }
 
-    function DeliveryGap() {
+    const DeliveryGap = useCallback(() => {
         fetch (`http://${apiUrl}/client/getdeliverygap`, {
             method: 'POST',
             headers: {
@@ -214,9 +214,9 @@ export default function Home() {
             }
         })
         .catch((err) => console.log(err))  
-    }
+    },[apiUrl, clientNumber])
 
-    function PickupGap() {
+    const PickupGap = useCallback(() => {
         fetch (`http://${apiUrl}/client/getpickupgap`, {
             method: 'POST',
             headers: {
@@ -233,9 +233,9 @@ export default function Home() {
             }
         })
         .catch((err) => console.log(err))
-    }
+    },[apiUrl, clientNumber])
 
-    function DeliveryFee() {
+    const DeliveryFee = useCallback(() => {
         fetch (`http://${apiUrl}/client/getdeliveryfee`, {
             method: 'POST',
             headers: {
@@ -253,7 +253,7 @@ export default function Home() {
             }
         })
         .catch((err) => console.log(err))  
-    }
+    },[apiUrl, clientNumber])
 
     function objectToArray(obj) {
         let arrayFromObject = []
@@ -268,19 +268,19 @@ export default function Home() {
 
     useEffect(() => {
         IsOpen(clientNumber)
-    },[count])
+    },[count, IsOpen, clientNumber])
 
     useEffect(() => {
         DeliveryGap()
-    },[count])
+    },[count, DeliveryGap])
 
     useEffect(() => {
         PickupGap()
-    },[count])
+    },[count, PickupGap])
 
     useEffect(() => {
         DeliveryFee()
-    },[count])
+    },[count, DeliveryFee])
 
     if (!userId) {
         return(

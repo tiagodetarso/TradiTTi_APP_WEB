@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import differenceBy from 'lodash/differenceBy'
@@ -122,7 +122,7 @@ export default function Editar() {
     },[pending])
 
     // Função para listar produtos
-    function Listar() {
+    const Listar = useCallback(() => {
         fetch (`http://${apiUrl}/product/list`, {
             method: 'POST',
             headers: {
@@ -138,7 +138,7 @@ export default function Editar() {
             } 
         })
         .catch((err) => console.log(err))
-    }
+    },[apiUrl, clientNumber])
 
     function Search(text) {
         text.length < 2 
@@ -163,7 +163,7 @@ export default function Editar() {
     // Buscar dados dos Produtos ao iniciar a página e ao pesquisar
     useEffect(() => {
         Listar()
-    },[thereState, count])
+    },[Listar, thereState, count])
 
     useEffect(() => {
         SettingList(result)
@@ -234,7 +234,7 @@ export default function Editar() {
                 <Button text='Editar' handleOnClick={handleEdit} />
             </div>
 		)
-	},[result, rows])
+	},[apiUrl, count, dispatch, result, rows])
 
     // Função para editar produto (dentro do modal)
     function ModalSubmitForm(formData) {

@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import differenceBy from 'lodash/differenceBy'
 import { createTheme } from 'react-data-table-component'
 import Modal from 'react-modal'
@@ -21,7 +21,6 @@ import styles from './Home.module.css'
 
 export default function Promocoes() {
 
-    const navigate = useNavigate()
     const dispatch = useDispatch()
     const userId = useSelector((state) => state.loginresponse.content.id)
     const count = useSelector((state) => state.loginresponse.mensagem.count)
@@ -47,19 +46,20 @@ export default function Promocoes() {
         return () => clearTimeout(timeout)
     },[pending])
 
-    const NumberWeekDay = {
-        7:'Nenhum dia específico',
-        0:'Domingo',
-        1:'Segunda-feira',
-        2:'Terça-feira',
-        3:'Quarta-feira',
-        4:'Quinta-feira',
-        5:'Sexta-feira',
-        6:'Sábado'
-    }
-
     // Função para listar promoções
-    function ListarPromocoes() {
+    const ListarPromocoes = useCallback(() => {
+
+        const NumberWeekDay = {
+            7:'Nenhum dia específico',
+            0:'Domingo',
+            1:'Segunda-feira',
+            2:'Terça-feira',
+            3:'Quarta-feira',
+            4:'Quinta-feira',
+            5:'Sexta-feira',
+            6:'Sábado'
+        }
+
         fetch (`http://${apiUrl}/product/promotionlist`, {
             method: 'POST',
             headers: {
@@ -69,7 +69,6 @@ export default function Promocoes() {
         })
         .then(resp => resp.json())
         .then((data) => {
-            console.log(data)
             const receivedData = data ? data : {msg:"", content:""}
             if (receivedData.msg === "Pesquisa bem sucedida!") {
                 const content = receivedData.content
@@ -82,10 +81,10 @@ export default function Promocoes() {
             } 
         })
         .catch((err) => console.log(err))
-    }
+    }, [apiUrl, clientNumber])
 
     // Buscar dados dos Produtos ao iniciar a página
-    useEffect(() => {ListarPromocoes()},[count])
+    useEffect(() => {ListarPromocoes()},[ListarPromocoes, count])
 
     // Gerenciar seleção de linhas
     function RowsChange( rows ) {
@@ -140,7 +139,7 @@ export default function Promocoes() {
                 <Button text='Editar' handleOnClick={handleEdit} />
             </div>
 		)
-	},[result, rows])
+	},[result, rows, apiUrl, count, dispatch])
 
     // Função para editar produto (dentro do modal)
     function ModalSubmitForm(formData) {

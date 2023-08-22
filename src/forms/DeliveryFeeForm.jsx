@@ -21,7 +21,7 @@ export default function DeliveryFee({ handleSubmit, btnText }) {
 
     const neighborhood = [
         {name: "ESCOLHA"},
-        {name: "NÃO MORO EM ASTORGA"},
+        {name: "FORA DE ASTORGA"},
         {name: "CENTRO"},
         {name: "CJ ALVORADA"},
         {name: "CJ ANTONIO LOURENÇO I"},
