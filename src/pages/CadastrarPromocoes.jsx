@@ -36,7 +36,7 @@ export default function CadastrarPromocoes() {
     function CadastrarPromocao (formData) {
         const apiUrl = process.env.REACT_APP_API_URL
 
-        fetch (`http://${apiUrl}/product/promotionregister`, {
+        fetch (`${apiUrl}/product/promotionregister`, {
                 method: 'PATCH',
                 headers: {
                     'Content-type': 'application/json',

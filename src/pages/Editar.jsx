@@ -46,7 +46,7 @@ export default function Editar() {
 
     function ChangeThereIs (r) {
         setThereState(!thereState)
-        fetch (`http://${apiUrl}/product/editthereis`, {
+        fetch (`${apiUrl}/product/editthereis`, {
                     method: 'PATCH',
                     headers: {
                         'Content-type': 'application/json',
@@ -123,7 +123,7 @@ export default function Editar() {
 
     // Função para listar produtos
     const Listar = useCallback(() => {
-        fetch (`http://${apiUrl}/product/list`, {
+        fetch (`${apiUrl}/product/list`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
@@ -194,7 +194,7 @@ export default function Editar() {
 		const handleDelete = () => {
 			if (window.confirm(`Tem certeza que deseja deletar:\r ${rows.map(r => r.subType+' '+r.specification+' ')}?`)) {
                 for (const row of rows) {
-                    fetch (`http://${apiUrl}/product/delete`, {
+                    fetch (`${apiUrl}/product/delete`, {
                         method: 'POST',
                         headers: {
                             'Content-type': 'application/json',
@@ -239,7 +239,7 @@ export default function Editar() {
     // Função para editar produto (dentro do modal)
     function ModalSubmitForm(formData) {
         setToggledClearRows(true)
-        fetch (`http://${apiUrl}/product/edit`, {
+        fetch (`${apiUrl}/product/edit`, {
                 method: 'PATCH',
                 headers: {
                     'Content-type': 'application/json',

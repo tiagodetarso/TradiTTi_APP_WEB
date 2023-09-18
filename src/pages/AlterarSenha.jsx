@@ -21,7 +21,7 @@ export default function AlterarSenha() {
     dispatch(setPath(location.pathname))
 
     function AlterarSenha(form) {
-        fetch (`http://${apiUrl}/clientuser/changepass`, {
+        fetch (`${apiUrl}/clientuser/changepass`, {
                 method: 'PATCH',
                 headers: {
                     'Content-type': 'application/json',

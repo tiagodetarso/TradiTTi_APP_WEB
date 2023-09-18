@@ -23,7 +23,7 @@ export default function RedefinirSenha() {
     dispatch(setPath(location.pathname))
 
     function AlterarSenha(form) {
-        fetch (`http://${apiUrl}/clientuser/resetpass`, {
+        fetch (`${apiUrl}/clientuser/resetpass`, {
                 method: 'PATCH',
                 headers: {
                     'Content-type': 'application/json',

@@ -24,7 +24,7 @@ export default function Cadastrar() {
     function CadastrarProduto(dadosForm) {
         const apiUrl = process.env.REACT_APP_API_URL
         
-        fetch (`http://${apiUrl}/product/register`, {
+        fetch (`${apiUrl}/product/register`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',

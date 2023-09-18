@@ -32,7 +32,7 @@ export default function CadastrarImagemPromocao() {
 
         console.log(JSON.stringify({id: productId, image: base64StringImage}))
 
-        fetch (`http://${apiUrl}/product/promotionimageregister`, {
+        fetch (`${apiUrl}/product/promotionimageregister`, {
                 method: 'PATCH',
                 headers: {
                     'Content-type': 'application/json',

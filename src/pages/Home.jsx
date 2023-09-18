@@ -100,7 +100,7 @@ export default function Home() {
     const apiUrl = process.env.REACT_APP_API_URL
        
     const IsOpen = useCallback((numberClient) => {
-        fetch (`http://${apiUrl}/client/isopen`, {
+        fetch (`${apiUrl}/client/isopen`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
@@ -118,7 +118,7 @@ export default function Home() {
     },[apiUrl])
 
     function HandleOpenCloseClick(openOrClose) {
-        fetch (`http://${apiUrl}/client/openclose`, {
+        fetch (`${apiUrl}/client/openclose`, {
             method: 'PATCH',
             headers: {
                 'Content-type':'application/json',
@@ -198,7 +198,7 @@ export default function Home() {
     }
 
     const DeliveryGap = useCallback(() => {
-        fetch (`http://${apiUrl}/client/getdeliverygap`, {
+        fetch (`${apiUrl}/client/getdeliverygap`, {
             method: 'POST',
             headers: {
                 'Content-type':'application/json',
@@ -217,7 +217,7 @@ export default function Home() {
     },[apiUrl, clientNumber])
 
     const PickupGap = useCallback(() => {
-        fetch (`http://${apiUrl}/client/getpickupgap`, {
+        fetch (`${apiUrl}/client/getpickupgap`, {
             method: 'POST',
             headers: {
                 'Content-type':'application/json',
@@ -236,7 +236,7 @@ export default function Home() {
     },[apiUrl, clientNumber])
 
     const DeliveryFee = useCallback(() => {
-        fetch (`http://${apiUrl}/client/getdeliveryfee`, {
+        fetch (`${apiUrl}/client/getdeliveryfee`, {
             method: 'POST',
             headers: {
                 'Content-type':'application/json',

@@ -23,7 +23,7 @@ export default function Login() {
     dispatch(setPath(location.pathname))
     
     function Logar(userClient) {
-        fetch (`http://${apiUrl}/clientuser/login`, {
+        fetch (`${apiUrl}/clientuser/login`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',

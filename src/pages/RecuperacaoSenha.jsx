@@ -23,7 +23,7 @@ export default function RecuperacaoSenha() {
     dispatch(setPath(location.pathname))
 
     function EnviarCodigo(form) {
-        fetch (`http://${apiUrl}/clientuser/retrievepass`, {
+        fetch (`${apiUrl}/clientuser/retrievepass`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',

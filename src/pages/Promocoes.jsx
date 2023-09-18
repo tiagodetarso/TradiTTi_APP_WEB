@@ -60,7 +60,7 @@ export default function Promocoes() {
             6:'Sábado'
         }
 
-        fetch (`http://${apiUrl}/product/promotionlist`, {
+        fetch (`${apiUrl}/product/promotionlist`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
@@ -99,7 +99,7 @@ export default function Promocoes() {
 		const handleDelete = () => {
 			if (window.confirm(`Tem certeza que deseja deletar:\r ${rows.map(r => `Promoção de ${r.subtype} - ${r.specification}?`)}?`)) {
                 for (const row of rows) {
-                    fetch (`http://${apiUrl}/product/deletepromotion`, {
+                    fetch (`${apiUrl}/product/deletepromotion`, {
                         method: 'PATCH',
                         headers: {
                             'Content-type': 'application/json',
@@ -143,7 +143,7 @@ export default function Promocoes() {
 
     // Função para editar produto (dentro do modal)
     function ModalSubmitForm(formData) {
-        fetch (`http://${apiUrl}/product/promotionedit`, {
+        fetch (`${apiUrl}/product/promotionedit`, {
                 method: 'PATCH',
                 headers: {
                     'Content-type': 'application/json',
@@ -172,7 +172,7 @@ export default function Promocoes() {
         const uint8ArrayImage = new Uint8Array(arrayBufferImage)
         const base64StringImage = btoa(String.fromCharCode.apply(null, uint8ArrayImage))
 
-        fetch (`http://${apiUrl}/product/promotionimageedit`, {
+        fetch (`${apiUrl}/product/promotionimageedit`, {
                 method: 'PATCH',
                 headers: {
                     'Content-type': 'application/json',
