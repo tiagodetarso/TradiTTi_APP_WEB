@@ -19,76 +19,8 @@ export default function Home() {
     const [ store, setStore ] = useState("Seja Bem-vindo(a)")
     const [ deliveryGap, setDeliveryGap ] = useState('0 a 0 minutos')
     const [ pickupGap, setPickupGap ] = useState('0 a 0 minutos')
+    const [ deliveryFee, setDeliveryFee ] = useState({})
     
-    const [ deliveryFee, setDeliveryFee ] = useState({
-        "FORA DE ASTORGA": 0,
-        "CENTRO": 0,
-        "CJ ALVORADA": 0,
-        "CJ ANTONIO LOURENÇO I": 0,
-        "CJ ANTONIO LOURENÇO II": 0,
-        "CJ HAB DIMAS DURAES": 0,
-        "CJ HAB VERELENA": 0,
-        "CJ SOL NASCENTE": 0,
-        "DISTR ICARA": 0,
-        "DISTR SANTA ZELIA": 0,
-        "DISTR TUPINAMBA": 0,
-        "GRALHA AZUL": 0,
-        "GRANADA": 0,
-        "GLEBA PATRIMONIO": 0,
-        "GLEBA RIBEIRÃO": 0,
-        "GLEBA PARANAGUÁ": 0,
-        "GLEBA PIMPINELA": 0,
-        "JD ALTO DA BOA VISTA": 0,
-        "JD ASTORGA": 0,
-        "JD BALNEARIO GUANABARA": 0,
-        "JD BELA VISTA": 0,
-        "JD BELUCO": 0,
-        "JD CENTRAL": 0,
-        "JD DAS TORRES I": 0,
-        "JD DAS TORRES II": 0,
-        "JD IMPERIAL": 0,
-        "JD ITALIA": 0,
-        "JD JACOMO VISCARDI": 0,
-        "JD LICCE I": 0,
-        "JD LICCE II": 0,
-        "JD LIOGI CAVALARI": 0,
-        "JD LONDRINA": 0,
-        "JD NOVA VENEZA": 0,
-        "JD PANORAMA I": 0,
-        "JD PARANORAMA II": 0,
-        "JD PARANA I": 0,
-        "JD PARANA II": 0,
-        "JD PLANALTO": 0,
-        "JD SAO BENEDITO": 0,
-        "JD SAO JOSE": 0,
-        "JD SAO PAULO": 0,
-        "JD SINUELO": 0,
-        "JD TAQUARI": 0,
-        "JD VITORIA REGIA": 0,
-        "JOAO JULIANI": 0,
-        "PQ INDUSTR RECIERI RESQUETI": 0,
-        "PQ INDUSTR ADELINO SALVADOR": 0,
-        "RES TIMBO": 0,
-        "VL APARECIDA": 0,
-        "VL BANDEIRANTES": 0,
-        "VL BRASIL": 0,
-        "VL EDMEIA": 0,
-        "VL EDMUNDO ROTHER": 0,
-        "VL FRANCISCO SILVA": 0,
-        "VL IMAGUIRI": 0,
-        "VL INDUSTRIAL": 0,
-        "VL IVO MENDES": 0,
-        "VL MOREIRA": 0,
-        "VL NOVA": 0,
-        "VL NOVA AMERICA": 0,
-        "VL OLIVIA": 0,
-        "VL PAULISTA": 0,
-        "VL RIOS": 0,
-        "VL SAMUEL": 0,
-        "VL TREVISAN": 0,
-        "VL ZANIN": 0
-        })
-
     const dispatch = useDispatch()
     const userId = useSelector((state) => state.loginresponse.content.id)
     const count = useSelector((state) => state.loginresponse.mensagem.count)
@@ -138,7 +70,7 @@ export default function Home() {
     }
 
     function HandleDeliveryGapClick(data) {
-        fetch (`http://${apiUrl}/client/deliverygap`, {
+        fetch (`${apiUrl}/client/deliverygap`, {
             method: 'PATCH',
             headers: {
                 'Content-type':'application/json',
@@ -158,7 +90,7 @@ export default function Home() {
     }
 
     function HandlePickupGapClick(data) {
-        fetch (`http://${apiUrl}/client/pickupgap`, {
+        fetch (`${apiUrl}/client/pickupgap`, {
             method: 'PATCH',
             headers: {
                 'Content-type':'application/json',
@@ -178,7 +110,7 @@ export default function Home() {
     }
 
     function HandleDeliveryFeeClick(data) {
-        fetch (`http://${apiUrl}/client/deliveryfee`, {
+        fetch (`${apiUrl}/client/deliveryfee`, {
             method: 'PATCH',
             headers: {
                 'Content-type':'application/json',
@@ -265,6 +197,29 @@ export default function Home() {
 
         return arrayFromObject
     }
+
+    useEffect(() => {
+        function Neighborhood () {
+            fetch (`${apiUrl}/client/getdeliveryfee`, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify({clientNumber: clientNumber})
+            })
+            .then(resp => resp.json())
+            .then((data) => {
+                if (data.msg === "Pesquisa realizada com sucesso!") {
+                    const content = data.content.deliveryFee
+                    setDeliveryFee(content)
+                } 
+            })
+            .catch((err) => console.log(err))
+        }
+
+        Neighborhood()
+        console.log(deliveryFee)
+    },[])
 
     useEffect(() => {
         IsOpen(clientNumber)
