@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
 import Input from '../formItens/Input'
 import Select from '../formItens/Select'
@@ -8,7 +9,11 @@ import styles from './LoginForm.module.css'
 
 export default function DeliveryFee({ handleSubmit, btnText }) {
 
+    const apiUrl = process.env.REACT_APP_API_URL
+    const clientNumber = useSelector((state) => state.login.cliente)
+
     const [ fee, setFee ] = useState({name: "", taxa:0})
+    const [neighborhoods, setNeighborhoods] = useState([])
 
     const submit = (e) => {
         e.preventDefault()
@@ -19,80 +24,28 @@ export default function DeliveryFee({ handleSubmit, btnText }) {
         setFee({ ...fee, [e.target.name]: e.target.value})
     }
 
-    const neighborhood = [
-        {name: "ESCOLHA"},
-        {name: "FORA DE ASTORGA"},
-        {name: "CENTRO"},
-        {name: "CJ ALVORADA"},
-        {name: "CJ ANTONIO LOURENÇO I"},
-        {name: "CJ ANTONIO LOURENÇO II"},
-        {name: "CJ HAB DIMAS DURAES"},
-        {name: 'CJ PIQUIRI'},
-        {name: "CJ HAB VERELENA"},
-        {name: "CJ SOL NASCENTE"},
-        {name: "DISTR ICARA"},
-        {name: "DISTR SANTA ZELIA"},
-        {name: "DISTR TUPINAMBA"},
-        {name: "GRALHA AZUL"},
-        {name: "GRANADA"},
-        {name: "GLEBA PATRIMONIO"},
-        {name: "GLEBA RIBEIRÃO"},
-        {name: "GLEBA PARANAGUÁ"},
-        {name: "GLEBA PIMPINELA"},
-        {name: "JD ALTO DA BOA VISTA"},
-        {name: "JD ASTORGA"},
-        {name: "JD BALNEARIO GUANABARA"},
-        {name: "JD BELA VISTA"},
-        {name: "JD BELUCO"},
-        {name: "JD CENTRAL"},
-        {name: "JD DAS TORRES I"},
-        {name: "JD DAS TORRES II"},
-        {name: 'JD EVEREST'},
-        {name: "JD IMPERIAL"},
-        {name: "JD ITALIA"},
-        {name: "JD JACOMO VISCARDI"},
-        {name: "JD LICCE I"},
-        {name: "JD LICCE II"},
-        {name: "JD LIOGI CAVALARI"},
-        {name: "JD LONDRINA"},
-        {name: 'JD MADRID'},
-        {name: "JD NOVA VENEZA"},
-        {name: "JD PANORAMA I"},
-        {name: "JD PARANORAMA II"},
-        {name: "JD PARANA I"},
-        {name: "JD PARANA II"},
-        {name: "JD PLANALTO"},
-        {name: 'JD PRIMAVERA'},
-        {name: "JD SAO BENEDITO"},
-        {name: "JD SAO JOSE"},
-        {name: "JD SAO PAULO"},
-        {name: "JD SINUELO"},
-        {name: "JD TAQUARI"},
-        {name: "JD VITORIA REGIA"},
-        {name: "JOAO JULIANI"},
-        {name: "PQ INDUSTR RECIERI RESQUETI"},
-        {name: "PQ INDUSTR ADELINO SALVADOR"},
-        {name: 'RES PRANDI'},
-        {name: "RES TIMBO"},
-        {name: "VL APARECIDA"},
-        {name: "VL BANDEIRANTES"},
-        {name: "VL BRASIL"},
-        {name: "VL EDMEIA"},
-        {name: "VL EDMUNDO ROTHER"},
-        {name: "VL FRANCISCO SILVA"},
-        {name: "VL IMAGUIRI"},
-        {name: "VL INDUSTRIAL"},
-        {name: "VL IVO MENDES"},
-        {name: "VL MOREIRA"},
-        {name: "VL NOVA"},
-        {name: "VL NOVA AMERICA"},
-        {name: "VL OLIVIA"},
-        {name: "VL PAULISTA"},
-        {name: "VL RIOS"},
-        {name: "VL SAMUEL"},
-        {name: "VL TREVISAN"},
-        {name: "VL ZANIN"}
-    ]
+    useEffect(() => {
+        function Neighborhood () {
+            fetch (`${apiUrl}/client/getdeliveryfee`, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify({clientNumber: clientNumber})
+            })
+            .then(resp => resp.json())
+            .then((data) => {
+                if (data.msg === "Pesquisa realizada com sucesso!") {
+                    const content = data.content.deliveryFee
+                    setNeighborhoods(Object.keys(content))
+                } 
+            })
+            .catch((err) => console.log(err))
+        }
+
+        Neighborhood()
+        console.log(neighborhoods)
+    },[])
 
     return (
         <form onSubmit={submit} className={styles.form}>
@@ -106,7 +59,7 @@ export default function DeliveryFee({ handleSubmit, btnText }) {
             />
             <Select
                 name="neighborhood"
-                ops={neighborhood}
+                ops={neighborhoods}
                 text="Bairro ou Distrito"
                 size={1}
                 handleOnChange={handleChange}
