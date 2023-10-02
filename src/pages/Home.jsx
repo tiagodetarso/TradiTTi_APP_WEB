@@ -195,7 +195,7 @@ export default function Home() {
         })
         arrayFromObject.pop()
 
-        return arrayFromObject
+        return arrayFromObject.sort()
     }
 
     useEffect(() => {
