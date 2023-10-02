@@ -37,7 +37,7 @@ export default function DeliveryFee({ handleSubmit, btnText }) {
             .then((data) => {
                 if (data.msg === "Pesquisa realizada com sucesso!") {
                     const content = data.content.deliveryFee
-                    setNeighborhoods(Object.keys(content))
+                    setNeighborhoods(Object.keys(content).sort())
                 } 
             })
             .catch((err) => console.log(err))
